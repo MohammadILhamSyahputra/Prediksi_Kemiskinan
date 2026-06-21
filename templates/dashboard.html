@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Analisis Regresi Kemiskinan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 min-h-screen flex flex-col">
+
+    <!-- NAVIGATION HEADER -->
+    <header class="bg-slate-900 text-white shadow-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <span class="bg-indigo-900 text-indigo-200 text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wider">Projek Data Science</span>
+                <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight mt-1 text-white">Sistem Prediksi Kemiskinan Daerah</h1>
+                <p class="text-slate-400 text-sm mt-1">Implementasi Algoritma Regresi Linear Berganda Berbasis Framework Flask</p>
+            </div>
+            
+            <div class="flex flex-col sm:flex-row gap-3">
+                <!-- Anggota Kelompok 1 -->
+                <div class="bg-slate-800 border border-slate-700 rounded-lg p-3 flex items-center gap-3 min-w-[220px]">
+                    <div class="bg-indigo-600 h-9 w-9 rounded-full flex items-center justify-center text-white text-md font-bold shrink-0">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-xs leading-tight text-slate-100">Mohammad Ilham Syahputra</h2>
+                        <p class="text-[10px] text-slate-400">NIM: 243107030092</p>
+                        <p class="text-[9px] text-indigo-400 font-semibold tracking-wider uppercase mt-0.5">Prodi D3 Manajemen Informatika</p>
+                    </div>
+                </div>
+
+                <!-- Anggota Kelompok 2 -->
+                <div class="bg-slate-800 border border-slate-700 rounded-lg p-3 flex items-center gap-3 min-w-[220px]">
+                    <div class="bg-indigo-600 h-9 w-9 rounded-full flex items-center justify-center text-white text-md font-bold shrink-0">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-xs leading-tight text-slate-100">Yusril Aditya Pratama</h2>
+                        <p class="text-[10px] text-slate-400">NIM: 243107030090</p>
+                        <p class="text-[9px] text-indigo-400 font-semibold tracking-wider uppercase mt-0.5">Prodi D3 Manajemen Informatika</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8 w-full">
+
+        {% if not model_trained %}
+        <div class="bg-rose-50 border-l-4 border-rose-500 p-4 mb-8 rounded shadow-sm">
+            <div class="flex">
+                <div class="flex-shrink-0"><i class="fa-solid fa-triangle-exclamation text-rose-500 text-lg"></i></div>
+                <div class="ml-3">
+                    <p class="text-sm text-rose-700 font-bold">File Database Excel Hilang!</p>
+                    <p class="text-xs text-rose-600 mt-1">Harap letakkan berkas <strong>Dataset Pengaruh TPT dan RLS terhadap presentase penduduk miskin.xlsx</strong> di root folder proyek Anda.</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- KOLOM KIRI (KALKULATOR & PREPROCESSING) -->
+            <div class="lg:col-span-1 space-y-6">
+                
+                <!-- KALKULATOR ESTIMASI -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-indigo-700 px-6 py-4 text-white flex items-center gap-2">
+                        <i class="fa-solid fa-calculator"></i>
+                        <h3 class="font-bold text-lg">Kalkulator Prediksi (Y)</h3>
+                    </div>
+                    
+                    <div class="p-6 space-y-5">
+                        <form id="calcForm" class="space-y-4">
+                            <div>
+                                <label for="tpt" class="block text-sm font-semibold text-slate-700 mb-1">
+                                    <i class="fa-solid fa-users-slash text-indigo-600 mr-1"></i> Pengangguran / TPT (X₁) %
+                                </label>
+                                <input type="number" step="any" id="tpt" name="tpt" required placeholder="Contoh: 5.75"
+                                    class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                            </div>
+
+                            <div>
+                                <label for="rls" class="block text-sm font-semibold text-slate-700 mb-1">
+                                    <i class="fa-solid fa-school text-indigo-600 mr-1"></i> RLS (X₂) Tahun
+                                </label>
+                                <input type="number" step="any" id="rls" name="rls" required placeholder="Contoh: 9.95"
+                                    class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                            </div>
+
+                            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-md shadow transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Hitung Prediksi Kemiskinan
+                            </button>
+                        </form>
+
+                        <div id="outputContainer" class="hidden mt-6 border border-indigo-100 rounded-lg p-5 text-center bg-indigo-50/50">
+                            <h4 class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">Hasil Prediksi Kemiskinan</h4>
+                            <div class="text-4xl font-extrabold text-indigo-600" id="predictedVal">0.00%</div>
+                            <div class="text-xs font-semibold text-slate-500 mt-1">dari Total Penduduk Daerah</div>
+                            
+                            <div id="guardWarning" class="hidden mt-3 bg-amber-50 text-amber-700 border border-amber-200 text-[10px] p-2 rounded-md">
+                                <i class="fa-solid fa-shield-halved mr-1"></i> <strong>Safety Guard:</strong> Nilai dibulatkan ke 0% agar tetap logis.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PREPROCESSING DATA -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4">
+                    <h3 class="font-bold text-slate-700 border-b pb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-clipboard-check text-indigo-600"></i> Preprocessing Data
+                    </h3>
+                    
+                    <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100">
+                        <span class="text-indigo-800 text-xs font-bold uppercase block mb-2">Pengecekan Missing Value (.isnull())</span>
+                        <div class="space-y-2 text-xs">
+                            {% if missing_values %}
+                                {% for col, count in missing_values.items() %}
+                                <div class="flex justify-between items-start border-b border-indigo-100 pb-1 gap-2">
+                                    <span class="text-slate-600 font-medium break-words flex-1 text-left">{{ col }}</span>
+                                    <span class="{% if count > 0 %}text-rose-600 font-bold{% else %}text-emerald-600 font-semibold{% endif %}">
+                                        {{ count }} data kosong
+                                    </span>
+                                </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-100 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-500 text-xs font-medium">Koefisien Determinasi (R²)</span>
+                            <span class="text-sm font-extrabold text-slate-800">{% if model_trained %}{{ "%.6f"|format(metrics.r2) }}{% else %}N/A{% endif %}</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-slate-500 text-xs font-medium">Persentase Akurasi</span>
+                            <span class="text-sm font-extrabold text-emerald-600">{% if model_trained %}{{ "%.2f"|format(metrics.r2 * 100) }}%{% else %}N/A{% endif %}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KOLOM KANAN (GRAFIK & DATA EXPLORER) -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- GRAFIK SCATTER PLOT INTERAKTIF -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <div class="flex justify-between items-center border-b pb-4 mb-4">
+                        <div>
+                            <h3 class="font-bold text-lg text-slate-700 flex items-center gap-2">
+                                <i class="fa-solid fa-chart-line text-indigo-600"></i> Sebaran Data & Garis Tren Regresi
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-0.5">Visualisasi interaktif korelasi TPT (X₁) terhadap Kemiskinan (Y)</p>
+                        </div>
+                        <span class="text-xs font-bold bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Interactive Chart</span>
+                    </div>
+
+                    <div class="relative w-full h-[320px]">
+                        <canvas id="regresionChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- BARU: PERBANDINGAN TINGGI VS RENDAH INTERAKTIF -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <div class="border-b pb-4 mb-4">
+                        <h3 class="font-bold text-lg text-slate-700 flex items-center gap-2">
+                            <i class="fa-solid fa-chart-bar text-indigo-600"></i> Perbandingan Kemiskinan Antar Provinsi
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-0.5">Analisis visual 10 provinsi dengan persentase kemiskinan tertinggi (merah) dan terendah (hijau)</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Chart Tinggi -->
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-600 mb-2 text-center flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-arrow-up-right-dots text-rose-500"></i> 10 Provinsi Kemiskinan Tertinggi (%)
+                            </h4>
+                            <div class="relative w-full h-[280px]">
+                                <canvas id="chartTinggi"></canvas>
+                            </div>
+                        </div>
+                        <!-- Chart Rendah -->
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-600 mb-2 text-center flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-arrow-down-long text-emerald-500"></i> 10 Provinsi Kemiskinan Terendah (%)
+                            </h4>
+                            <div class="relative w-full h-[280px]">
+                                <canvas id="chartRendah"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TABLE EXPLORER DATASET -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-database"></i>
+                            <h3 class="font-bold">Dataset Explorer (10 Provinsi Pertama)</h3>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase">
+                                    <th class="p-3">Nama Provinsi</th>
+                                    <th class="p-3 text-center">TPT (%)</th>
+                                    <th class="p-3 text-center">RLS (Th)</th>
+                                    <th class="p-3 text-center">P0 (%)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                {% if df_sample %}
+                                    {% for row in df_sample %}
+                                    <tr class="hover:bg-slate-50 transition">
+                                        <td class="p-3 font-semibold text-slate-700">{{ row.provinsi }}</td>
+                                        <td class="p-3 text-center font-mono">{{ "%.2f"|format(row.tpt) }}%</td>
+                                        <td class="p-3 text-center font-mono">{{ "%.2f"|format(row.rls) }} Tahun</td>
+                                        <td class="p-3 text-center font-bold text-indigo-600 font-mono">{{ "%.2f"|format(row.p0) }}%</td>
+                                    </tr>
+                                    {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PEMBAHASAN PERSAMAAN REGRESI -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4">
+                    <h3 class="font-bold text-slate-700 border-b pb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info text-indigo-600"></i> Pembahasan Persamaan Regresi
+                    </h3>
+                    
+                    <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-5 text-center my-4">
+                        <span class="text-indigo-800 text-xs font-bold uppercase tracking-wider block mb-2">Persamaan Matematika Regresi Berganda Aktif</span>
+                        <div class="text-md sm:text-lg font-mono font-bold text-indigo-900 bg-white py-3 px-6 rounded-lg shadow-sm inline-block border border-indigo-200">
+                            {% if model_trained %}{{ metrics.persamaan }}{% else %}Y = a + (b₁ * TPT) + (b₂ * RLS){% endif %}
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-slate-600 leading-relaxed pt-2">
+                        <div class="border-l-4 border-rose-500 pl-4 py-1">
+                            <h4 class="font-bold text-rose-700 text-sm">Pengaruh Pengangguran / TPT (X₁)</h4>
+                            <p class="font-semibold text-slate-500 mt-1">Koefisien Model (b₁): {% if model_trained %}{{ "%.4f"|format(metrics.koef_tpt) }}{% else %}N/A{% endif %}</p>
+                            <p class="mt-2 text-justify">
+                                Berdasarkan pemodelan, koefisien bernilai <strong>positif (+)</strong>. Hal ini selaras dengan teori ekonomi makro bahwa kenaikan tingkat pengangguran berbanding lurus dengan kemiskinan, akibat hilangnya pendapatan primer rumah tangga secara merata di suatu wilayah.
+                            </p>
+                        </div>
+                        <div class="border-l-4 border-emerald-500 pl-4 py-1">
+                            <h4 class="font-bold text-emerald-700 text-sm">Pengaruh Pendidikan / RLS (X₂)</h4>
+                            <p class="font-semibold text-slate-500 mt-1">Koefisien Model (b₂): {% if model_trained %}{{ "%.4f"|format(metrics.koef_rls) }}{% else %}N/A{% endif %}</p>
+                            <p class="mt-2 text-justify">
+                                Berdasarkan pemodelan, koefisien bernilai <strong>negatif (-)</strong>. Hal ini selaras dengan teori pengembangan modal manusia (*human capital theory*). Semakin lama masyarakat menempuh pendidikan, keahlian mereka semakin unggul untuk diserap lapangan kerja produktif, sehingga angka kemiskinan secara efektif tertekan.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-500 text-xs py-6 mt-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p>© 2026 Proyek UAS Analisis Data. Powered by Python Flask, Tailwind CSS, & Chart.js.</p>
+        </div>
+    </footer>
+
+    <!-- PENYIMPAN DATA JSON AMAN -->
+    <script id="chart-data" type="application/json">{{ chart_data | tojson | safe }}</script>
+    <script id="top10-tinggi-data" type="application/json">{{ top10_tinggi | tojson | safe }}</script>
+    <script id="top10-rendah-data" type="application/json">{{ top10_rendah | tojson | safe }}</script>
+
+    <script>
+        const rawChartData = JSON.parse(document.getElementById('chart-data').textContent);
+        const scatterPoints = rawChartData.map(item => ({ x: item.x, y: item.y }));
+
+        const rawTinggiData = JSON.parse(document.getElementById('top10-tinggi-data').textContent);
+        const rawRendahData = JSON.parse(document.getElementById('top10-rendah-data').textContent);
+
+        // Render diagram Chart.js murni interaktif
+        window.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('regresionChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Titik Koordinat Provinsi',
+                        data: scatterPoints,
+                        backgroundColor: 'rgba(79, 70, 229, 0.6)',
+                        borderColor: 'rgb(67, 56, 202)',
+                        borderWidth: 1,
+                        pointRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { title: { display: true, text: 'Tingkat Pengangguran Terbuka (X₁) %', font: { weight: 'bold' } } },
+                        y: { title: { display: true, text: 'Persentase Kemiskinan (Y) %', font: { weight: 'bold' } } }
+                    }
+                }
+            });
+
+            // --- BARU: RENDER CHART 10 PROVINSI TERTINGGI (HORIZONTAL BAR) ---
+            const ctxTinggi = document.getElementById('chartTinggi').getContext('2d');
+            new Chart(ctxTinggi, {
+                type: 'bar',
+                data: {
+                    labels: rawTinggiData.map(item => item.provinsi),
+                    datasets: [{
+                        label: 'Persentase Kemiskinan (%)',
+                        data: rawTinggiData.map(item => item.p0),
+                        backgroundColor: 'rgba(239, 68, 68, 0.7)', // merah lembut
+                        borderColor: 'rgb(220, 38, 38)', // merah solid
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y', // bar horizontal
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: '#f1f5f9' },
+                            ticks: { callback: value => value + '%' }
+                        },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+
+            // --- BARU: RENDER CHART 10 PROVINSI TERENDAH (HORIZONTAL BAR) ---
+            const ctxRendah = document.getElementById('chartRendah').getContext('2d');
+            new Chart(ctxRendah, {
+                type: 'bar',
+                data: {
+                    labels: rawRendahData.map(item => item.provinsi),
+                    datasets: [{
+                        label: 'Persentase Kemiskinan (%)',
+                        data: rawRendahData.map(item => item.p0),
+                        backgroundColor: 'rgba(16, 185, 129, 0.7)', // hijau emerald lembut
+                        borderColor: 'rgb(5, 150, 105)', // hijau solid
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y', // bar horizontal
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: '#f1f5f9' },
+                            ticks: { callback: value => value + '%' }
+                        },
+                        y: { grid: { display: false } }
+                    }
+                }
+            });
+        });
+
+        // AJAX Form Kalkulator Prediksi
+        const form = document.getElementById('calcForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const tptInput = document.getElementById('tpt').value;
+            const rlsInput = document.getElementById('rls').value;
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ tpt: parseFloat(tptInput), rls: parseFloat(rlsInput) })
+                });
+                const resData = await response.json();
+                if (resData.status === 'success') {
+                    document.getElementById('outputContainer').classList.remove('hidden');
+                    document.getElementById('predictedVal').textContent = new Intl.NumberFormat('id-ID', { minimumFractionDigits: 2 }).format(resData.prediksi_aman) + "%";
+                    if (resData.safety_guard_aktif) {
+                        document.getElementById('guardWarning').classList.remove('hidden');
+                    } else {
+                        document.getElementById('guardWarning').classList.add('hidden');
+                    }
+                }
+            } catch (err) {
+                console.error("Gagal melakukan kalkulasi:", err);
+            }
+        });
+    </script>
+</body>
+</html>
