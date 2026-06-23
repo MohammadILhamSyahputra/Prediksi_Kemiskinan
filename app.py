@@ -15,7 +15,7 @@ app = Flask(__name__)
 # LOKASI FILE & INISIALISASI VARIABEL GLOBAL
 # =====================================================================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-EXCEL_PATH = os.path.join(BASE_DIR, 'Dataset Pengaruh TPT dan RLS terhadap presentase penduduk miskin.xlsx')
+EXCEL_PATH = os.path.join(BASE_DIR, 'Dataset Pengaruh TPT dan RLS terhadap presentase penduduk miskin2.xlsx')
 
 IMAGE_DIR = os.path.join(BASE_DIR, 'static', 'images')
 os.makedirs(IMAGE_DIR, exist_ok=True)
@@ -57,6 +57,25 @@ def generate_and_save_plots(df_clean, col_x1, col_x2, col_y, col_provinsi, konst
         plt.legend(loc='upper right')
         plt.tight_layout()
         plt.savefig(os.path.join(IMAGE_DIR, 'sebaran_data.png'), dpi=300)
+        plt.close()
+
+        plt.figure(figsize=(8, 6))
+        plt.scatter(df_clean[col_x1], df_clean[col_y], color='#4f46e5', alpha=0.8, label='Data Provinsi')
+
+        # Menghitung garis regresi linear sederhana
+        coef_garis_x1 = np.polyfit(df_clean[col_x1], df_clean[col_y], 1)
+        x1_line = np.linspace(df_clean[col_x1].min(), df_clean[col_x1].max(), 100)
+        y1_line = np.polyval(coef_garis_x1, x1_line)
+
+        # Plot garis regresi
+        plt.plot(x1_line, y1_line, color='#4338ca', linewidth=2, label='Garis Regresi')
+
+        plt.title('Hubungan Tingkat Pengangguran (X1) vs Kemiskinan (Y)', fontsize=12, fontweight='bold')
+        plt.xlabel('Tingkat Pengangguran Terbuka (%)')
+        plt.ylabel('Persentase Penduduk Miskin (%)')
+        plt.legend()
+        plt.tight_layout()
+        plt.savefig(os.path.join(IMAGE_DIR, 'scatter_pengangguran.png'), dpi=300)
         plt.close()
 
         # --- 2. GRAFIK STATIS: PENDIDIKAN (X2) VS KEMISKINAN (Y) ---
