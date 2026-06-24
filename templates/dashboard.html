@@ -10,7 +10,6 @@
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 min-h-screen flex flex-col">
 
-    <!-- NAVIGATION HEADER -->
     <header class="bg-slate-900 text-white shadow-md border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
@@ -18,9 +17,7 @@
                 <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight mt-1 text-white">Sistem Prediksi Kemiskinan Daerah</h1>
                 <p class="text-slate-400 text-sm mt-1">Implementasi Algoritma Regresi Linear Berganda Berbasis Framework Flask</p>
             </div>
-            
             <div class="flex flex-col sm:flex-row gap-3">
-                <!-- Anggota Kelompok 1 -->
                 <div class="bg-slate-800 border border-slate-700 rounded-lg p-3 flex items-center gap-3 min-w-[220px]">
                     <div class="bg-indigo-600 h-9 w-9 rounded-full flex items-center justify-center text-white text-md font-bold shrink-0">
                         <i class="fa-solid fa-user"></i>
@@ -31,8 +28,6 @@
                         <p class="text-[9px] text-indigo-400 font-semibold tracking-wider uppercase mt-0.5">Prodi D3 Manajemen Informatika</p>
                     </div>
                 </div>
-
-                <!-- Anggota Kelompok 2 -->
                 <div class="bg-slate-800 border border-slate-700 rounded-lg p-3 flex items-center gap-3 min-w-[220px]">
                     <div class="bg-indigo-600 h-9 w-9 rounded-full flex items-center justify-center text-white text-md font-bold shrink-0">
                         <i class="fa-solid fa-user"></i>
@@ -61,18 +56,14 @@
         </div>
         {% endif %}
 
+        <!-- SECTION UTAMA -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            <!-- KOLOM KIRI (KALKULATOR & PREPROCESSING) -->
             <div class="lg:col-span-1 space-y-6">
-                
-                <!-- KALKULATOR ESTIMASI -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                     <div class="bg-indigo-700 px-6 py-4 text-white flex items-center gap-2">
                         <i class="fa-solid fa-calculator"></i>
                         <h3 class="font-bold text-lg">Kalkulator Prediksi (Y)</h3>
                     </div>
-                    
                     <div class="p-6 space-y-5">
                         <form id="calcForm" class="space-y-4">
                             <div>
@@ -82,25 +73,21 @@
                                 <input type="number" step="any" id="tpt" name="tpt" required placeholder="Contoh: 5.75"
                                     class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
                             </div>
-
                             <div>
                                 <label for="rls" class="block text-sm font-semibold text-slate-700 mb-1">
-                                    <i class="fa-solid fa-school text-indigo-600 mr-1"></i> Rata rata lama sekolah (X₂) (tahun)
+                                    <i class="fa-solid fa-school text-indigo-600 mr-1"></i> Rata rata lama sekolah / tahun (X₂)
                                 </label>
                                 <input type="number" step="any" id="rls" name="rls" required placeholder="Contoh: 9.95"
                                     class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
                             </div>
-
                             <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-md shadow transition flex items-center justify-center gap-2">
                                 <i class="fa-solid fa-wand-magic-sparkles"></i> Hitung Prediksi Kemiskinan
                             </button>
                         </form>
-
                         <div id="outputContainer" class="hidden mt-6 border border-indigo-100 rounded-lg p-5 text-center bg-indigo-50/50">
                             <h4 class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">Hasil Prediksi Kemiskinan</h4>
                             <div class="text-4xl font-extrabold text-indigo-600" id="predictedVal">0.00%</div>
                             <div class="text-xs font-semibold text-slate-500 mt-1">dari Total Penduduk Daerah</div>
-                            
                             <div id="guardWarning" class="hidden mt-3 bg-amber-50 text-amber-700 border border-amber-200 text-[10px] p-2 rounded-md">
                                 <i class="fa-solid fa-shield-halved mr-1"></i> <strong>Safety Guard:</strong> Nilai dibulatkan ke 0% agar tetap logis.
                             </div>
@@ -108,12 +95,10 @@
                     </div>
                 </div>
 
-                <!-- PREPROCESSING DATA -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4">
                     <h3 class="font-bold text-slate-700 border-b pb-2 flex items-center gap-2">
                         <i class="fa-solid fa-clipboard-check text-indigo-600"></i> Preprocessing Data
                     </h3>
-                    
                     <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100">
                         <span class="text-indigo-800 text-xs font-bold uppercase block mb-2">Pengecekan Missing Value (.isnull())</span>
                         <div class="space-y-2 text-xs">
@@ -129,7 +114,6 @@
                             {% endif %}
                         </div>
                     </div>
-                    
                     <div class="bg-slate-50 p-4 rounded-lg border border-slate-100 space-y-3">
                         <div class="flex justify-between items-center">
                             <span class="text-slate-500 text-xs font-medium">Koefisien Determinasi (R²)</span>
@@ -143,10 +127,7 @@
                 </div>
             </div>
 
-            <!-- KOLOM KANAN (GRAFIK & DATA EXPLORER) -->
             <div class="lg:col-span-2 space-y-6">
-                
-                <!-- GRAFIK SCATTER PLOT INTERAKTIF -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                     <div class="flex justify-between items-center border-b pb-4 mb-4">
                         <div>
@@ -157,13 +138,11 @@
                         </div>
                         <span class="text-xs font-bold bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Interactive Chart</span>
                     </div>
-
                     <div class="relative w-full h-[320px]">
                         <canvas id="regresionChart"></canvas>
                     </div>
                 </div>
 
-                <!-- BARU: PERBANDINGAN TINGGI VS RENDAH INTERAKTIF -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                     <div class="border-b pb-4 mb-4">
                         <h3 class="font-bold text-lg text-slate-700 flex items-center gap-2">
@@ -171,43 +150,22 @@
                         </h3>
                         <p class="text-xs text-slate-400 mt-0.5">Analisis visual 10 provinsi dengan persentase kemiskinan tertinggi (merah) dan terendah (hijau)</p>
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Chart Tinggi -->
                         <div>
                             <h4 class="text-xs font-bold text-slate-600 mb-2 text-center flex items-center justify-center gap-1.5">
                                 <i class="fa-solid fa-arrow-up-right-dots text-rose-500"></i> 10 Provinsi Kemiskinan Tertinggi (%)
                             </h4>
-                            <div class="relative w-full h-[280px]">
-                                <canvas id="chartTinggi"></canvas>
-                            </div>
+                            <div class="relative w-full h-[280px]"><canvas id="chartTinggi"></canvas></div>
                         </div>
-                        <!-- Chart Rendah -->
                         <div>
                             <h4 class="text-xs font-bold text-slate-600 mb-2 text-center flex items-center justify-center gap-1.5">
                                 <i class="fa-solid fa-arrow-down-long text-emerald-500"></i> 10 Provinsi Kemiskinan Terendah (%)
                             </h4>
-                            <div class="relative w-full h-[280px]">
-                                <canvas id="chartRendah"></canvas>
-                            </div>
+                            <div class="relative w-full h-[280px]"><canvas id="chartRendah"></canvas></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-    
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                        <h3 class="font-bold text-slate-700 mb-4 text-center">Pengangguran (X1) vs Kemiskinan (Y)</h3>
-                        <img src="{{ url_for('static', filename='images/scatter_pengangguran.png') }}" alt="Grafik TPT" class="w-full rounded">
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                        <h3 class="font-bold text-slate-700 mb-4 text-center">Pendidikan (X2) vs Kemiskinan (Y)</h3>
-                        <img src="{{ url_for('static', filename='images/scatter_pendidikan.png') }}" alt="Grafik Pendidikan" class="w-full rounded">
-                    </div>
-                </div>
-
-                <!-- TABLE EXPLORER DATASET -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                     <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center">
                         <div class="flex items-center gap-2">
@@ -241,42 +199,178 @@
                     </div>
                 </div>
 
-                <!-- PEMBAHASAN PERSAMAAN REGRESI -->
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4">
                     <h3 class="font-bold text-slate-700 border-b pb-2 flex items-center gap-2">
                         <i class="fa-solid fa-circle-info text-indigo-600"></i> Pembahasan Persamaan Regresi
                     </h3>
-                    
                     <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-5 text-center my-4">
                         <span class="text-indigo-800 text-xs font-bold uppercase tracking-wider block mb-2">Persamaan Matematika Regresi Berganda Aktif</span>
-                        <div class="text-md sm:text-lg font-mono font-bold text-indigo-900 bg-white py-3 px-6 rounded-lg shadow-sm inline-block border border-indigo-200">
-                            Y = Konstanta (a) + (Koefisien X₁ * TPT) + (Koefisien X₂ * RLS)
-                        </div>
                         <div class="text-md sm:text-lg font-mono font-bold text-indigo-900 bg-white py-3 px-6 rounded-lg shadow-sm inline-block border border-indigo-200">
                             {% if model_trained %}{{ metrics.persamaan }}{% else %}Y = a + (b₁ * TPT) + (b₂ * RLS){% endif %}
                         </div>
                     </div>
-
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-slate-600 leading-relaxed pt-2">
                         <div class="border-l-4 border-rose-500 pl-4 py-1">
                             <h4 class="font-bold text-rose-700 text-sm">Pengaruh Pengangguran / TPT (X₁)</h4>
                             <p class="font-semibold text-slate-500 mt-1">Koefisien Model (b₁): {% if model_trained %}{{ "%.4f"|format(metrics.koef_tpt) }}{% else %}N/A{% endif %}</p>
-                            <p class="mt-2 text-justify">
-                                Berdasarkan pemodelan, koefisien bernilai <strong>positif (+)</strong>. Hal ini selaras dengan teori ekonomi makro bahwa kenaikan tingkat pengangguran berbanding lurus dengan kemiskinan, akibat hilangnya pendapatan primer rumah tangga secara merata di suatu wilayah.
-                            </p>
+                            <p class="mt-2 text-justify">Berdasarkan pemodelan, koefisien bernilai <strong>positif (+)</strong>. Hal ini selaras dengan teori ekonomi makro bahwa kenaikan tingkat pengangguran berbanding lurus dengan kemiskinan, akibat hilangnya pendapatan primer rumah tangga secara merata di suatu wilayah.</p>
                         </div>
                         <div class="border-l-4 border-emerald-500 pl-4 py-1">
                             <h4 class="font-bold text-emerald-700 text-sm">Pengaruh Pendidikan / RLS (X₂)</h4>
                             <p class="font-semibold text-slate-500 mt-1">Koefisien Model (b₂): {% if model_trained %}{{ "%.4f"|format(metrics.koef_rls) }}{% else %}N/A{% endif %}</p>
-                            <p class="mt-2 text-justify">
-                                Berdasarkan pemodelan, koefisien bernilai <strong>negatif (-)</strong>. Hal ini selaras dengan teori pengembangan modal manusia. Semakin lama masyarakat menempuh pendidikan, keahlian mereka semakin unggul untuk diserap lapangan kerja produktif, sehingga angka kemiskinan secara efektif menurun.
-                            </p>
+                            <p class="mt-2 text-justify">Berdasarkan pemodelan, koefisien bernilai <strong>negatif (-)</strong>. Hal ini selaras dengan teori pengembangan modal manusia (*human capital theory*). Semakin lama masyarakat menempuh pendidikan, keahlian mereka semakin unggul untuk diserap lapangan kerja produktif, sehingga angka kemiskinan secara efektif tertekan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== FITUR UPLOAD DATASET KUSTOM ===================== -->
+        <div class="mt-10">
+            <div class="border-t-4 border-indigo-500 mb-8"></div>
+            <div class="mb-6">
+                <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Fitur Tambahan</span>
+                <h2 class="text-2xl font-extrabold text-slate-800 mt-2">Analisis Regresi Linier Berganda Dataset Kustom</h2>
+                <p class="text-slate-500 text-sm mt-1">Upload file Excel atau CSV milikmu sendiri, pilih kolom X1, X2, dan Y, lalu jalankan regresi linear berganda.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-1 space-y-6">
+
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="bg-slate-700 px-6 py-4 text-white flex items-center gap-2">
+                            <i class="fa-solid fa-file-arrow-up"></i>
+                            <h3 class="font-bold text-lg">Upload Dataset</h3>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <div id="uploadDropzone"
+                                class="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center cursor-pointer hover:border-indigo-400 hover:bg-indigo-50 transition"
+                                onclick="document.getElementById('fileInput').click()">
+                                <i class="fa-solid fa-cloud-arrow-up text-3xl text-slate-400 mb-2"></i>
+                                <p class="text-sm font-semibold text-slate-600">Klik untuk pilih file</p>
+                                <p class="text-xs text-slate-400 mt-1">Format: .xlsx, .xls, .csv</p>
+                            </div>
+                            <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" class="hidden">
+                            <div id="fileInfo" class="hidden text-xs text-slate-600 bg-slate-50 rounded p-3 border border-slate-200">
+                                <i class="fa-solid fa-file-excel text-emerald-600 mr-1"></i>
+                                <span id="fileName"></span>
+                            </div>
+                            <button onclick="handleUpload()"
+                                class="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-2.5 px-4 rounded-md shadow transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-upload"></i> Upload & Baca Kolom
+                            </button>
+                            <div id="uploadStatus" class="hidden text-xs p-3 rounded-md"></div>
+                        </div>
+                    </div>
+
+                    <div id="columnSelector" class="hidden bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="bg-indigo-600 px-6 py-4 text-white flex items-center gap-2">
+                            <i class="fa-solid fa-table-columns"></i>
+                            <h3 class="font-bold text-lg">Pilih Kolom Regresi</h3>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <div id="dataInfo" class="text-xs text-slate-500 bg-slate-50 rounded p-2 border border-slate-100"></div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">Variabel X₁ (Independen 1)</label>
+                                <select id="selX1" class="w-full px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-indigo-500">
+                                    <option value="">-- Pilih Kolom --</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">Variabel X₂ (Independen 2)</label>
+                                <select id="selX2" class="w-full px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-indigo-500">
+                                    <option value="">-- Pilih Kolom --</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">Variabel Y (Dependen / Target)</label>
+                                <select id="selY" class="w-full px-3 py-2 border border-slate-300 rounded-md text-sm focus:ring-2 focus:ring-indigo-500">
+                                    <option value="">-- Pilih Kolom --</option>
+                                </select>
+                            </div>
+                            <button onclick="handleAnalyze()"
+                                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-md shadow transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-chart-line"></i> Jalankan Regresi
+                            </button>
                         </div>
                     </div>
                 </div>
 
+                <div class="lg:col-span-2 space-y-6">
+                    <div id="resultPlaceholder" class="bg-white rounded-xl shadow-sm border border-dashed border-slate-300 p-12 text-center">
+                        <i class="fa-solid fa-chart-simple text-5xl text-slate-300 mb-4"></i>
+                        <p class="text-slate-400 font-semibold">Hasil regresi akan tampil di sini</p>
+                        <p class="text-slate-400 text-xs mt-1">Upload dataset dan pilih kolom terlebih dahulu</p>
+                    </div>
+
+                    <div id="regressionResult" class="hidden space-y-6">
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                            <h3 class="font-bold text-slate-700 border-b pb-3 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-square-root-variable text-indigo-600"></i> Hasil Regresi Linear Berganda
+                            </h3>
+                            <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-5 text-center mb-5">
+                                <span class="text-indigo-700 text-xs font-bold uppercase tracking-wider block mb-2">Persamaan Regresi</span>
+                                <div id="resPersamaan" class="text-base font-mono font-bold text-indigo-900 bg-white py-3 px-4 rounded-lg shadow-sm inline-block border border-indigo-200 break-all"></div>
+                            </div>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                                <div class="bg-slate-50 rounded-lg p-4 border border-slate-100">
+                                    <div class="text-xs text-slate-500 font-medium mb-1">Konstanta (a)</div>
+                                    <div id="resKonstanta" class="text-lg font-extrabold text-slate-800"></div>
+                                </div>
+                                <div class="bg-rose-50 rounded-lg p-4 border border-rose-100">
+                                    <div class="text-xs text-slate-500 font-medium mb-1">Koef. X₁ (b₁)</div>
+                                    <div id="resKoefX1" class="text-lg font-extrabold text-rose-700"></div>
+                                </div>
+                                <div class="bg-emerald-50 rounded-lg p-4 border border-emerald-100">
+                                    <div class="text-xs text-slate-500 font-medium mb-1">Koef. X₂ (b₂)</div>
+                                    <div id="resKoefX2" class="text-lg font-extrabold text-emerald-700"></div>
+                                </div>
+                                <div class="bg-indigo-50 rounded-lg p-4 border border-indigo-100">
+                                    <div class="text-xs text-slate-500 font-medium mb-1">R² Score</div>
+                                    <div id="resR2" class="text-lg font-extrabold text-indigo-700"></div>
+                                </div>
+                            </div>
+                            <div class="mt-4 text-xs text-slate-500 text-center">
+                                Akurasi model: <span id="resAkurasi" class="font-bold text-emerald-600"></span> &nbsp;|&nbsp;
+                                Total data valid: <span id="resSampel" class="font-bold"></span> baris
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                            <div class="bg-indigo-700 px-6 py-4 text-white flex items-center gap-2">
+                                <i class="fa-solid fa-calculator"></i>
+                                <h3 class="font-bold text-lg">Kalkulator Prediksi (Dataset Kustom)</h3>
+                            </div>
+                            <div class="p-6 space-y-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label id="labelX1Input" class="block text-sm font-semibold text-slate-700 mb-1">Nilai X₁</label>
+                                        <input type="number" step="any" id="inputX1"
+                                            class="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 transition"
+                                            placeholder="Masukkan nilai X1">
+                                    </div>
+                                    <div>
+                                        <label id="labelX2Input" class="block text-sm font-semibold text-slate-700 mb-1">Nilai X₂</label>
+                                        <input type="number" step="any" id="inputX2"
+                                            class="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 transition"
+                                            placeholder="Masukkan nilai X2">
+                                    </div>
+                                </div>
+                                <button onclick="handleUploadPredict()"
+                                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-md shadow transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> Hitung Prediksi Y
+                                </button>
+                                <div id="uploadPredictOutput" class="hidden border border-indigo-100 rounded-lg p-5 text-center bg-indigo-50/50">
+                                    <h4 class="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-1">Hasil Prediksi Y</h4>
+                                    <div id="uploadPredictVal" class="text-4xl font-extrabold text-indigo-600"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
     </main>
 
     <footer class="bg-slate-900 text-slate-500 text-xs py-6 mt-12 border-t border-slate-800">
@@ -285,7 +379,6 @@
         </div>
     </footer>
 
-    <!-- PENYIMPAN DATA JSON AMAN -->
     <script id="chart-data" type="application/json">{{ chart_data | tojson | safe }}</script>
     <script id="top10-tinggi-data" type="application/json">{{ top10_tinggi | tojson | safe }}</script>
     <script id="top10-rendah-data" type="application/json">{{ top10_rendah | tojson | safe }}</script>
@@ -293,28 +386,15 @@
     <script>
         const rawChartData = JSON.parse(document.getElementById('chart-data').textContent);
         const scatterPoints = rawChartData.map(item => ({ x: item.x, y: item.y }));
-
         const rawTinggiData = JSON.parse(document.getElementById('top10-tinggi-data').textContent);
         const rawRendahData = JSON.parse(document.getElementById('top10-rendah-data').textContent);
 
-        // Render diagram Chart.js murni interaktif
         window.addEventListener('DOMContentLoaded', () => {
             const ctx = document.getElementById('regresionChart').getContext('2d');
             new Chart(ctx, {
                 type: 'scatter',
-                data: {
-                    datasets: [{
-                        label: 'Titik Koordinat Provinsi',
-                        data: scatterPoints,
-                        backgroundColor: 'rgba(79, 70, 229, 0.6)',
-                        borderColor: 'rgb(67, 56, 202)',
-                        borderWidth: 1,
-                        pointRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
+                data: { datasets: [{ label: 'Titik Koordinat Provinsi', data: scatterPoints, backgroundColor: 'rgba(79, 70, 229, 0.6)', borderColor: 'rgb(67, 56, 202)', borderWidth: 1, pointRadius: 6 }] },
+                options: { responsive: true, maintainAspectRatio: false,
                     scales: {
                         x: { title: { display: true, text: 'Tingkat Pengangguran Terbuka (X₁) %', font: { weight: 'bold' } } },
                         y: { title: { display: true, text: 'Persentase Kemiskinan (Y) %', font: { weight: 'bold' } } }
@@ -322,96 +402,140 @@
                 }
             });
 
-            // --- BARU: RENDER CHART 10 PROVINSI TERTINGGI (HORIZONTAL BAR) ---
             const ctxTinggi = document.getElementById('chartTinggi').getContext('2d');
             new Chart(ctxTinggi, {
                 type: 'bar',
-                data: {
-                    labels: rawTinggiData.map(item => item.provinsi),
-                    datasets: [{
-                        label: 'Persentase Kemiskinan (%)',
-                        data: rawTinggiData.map(item => item.p0),
-                        backgroundColor: 'rgba(239, 68, 68, 0.7)', // merah lembut
-                        borderColor: 'rgb(220, 38, 38)', // merah solid
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y', // bar horizontal
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        x: {
-                            grid: { color: '#f1f5f9' },
-                            ticks: { callback: value => value + '%' }
-                        },
-                        y: { grid: { display: false } }
-                    }
+                data: { labels: rawTinggiData.map(item => item.provinsi), datasets: [{ label: 'Persentase Kemiskinan (%)', data: rawTinggiData.map(item => item.p0), backgroundColor: 'rgba(239, 68, 68, 0.7)', borderColor: 'rgb(220, 38, 38)', borderWidth: 1 }] },
+                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } },
+                    scales: { x: { grid: { color: '#f1f5f9' }, ticks: { callback: value => value + '%' } }, y: { grid: { display: false } } }
                 }
             });
 
-            // --- BARU: RENDER CHART 10 PROVINSI TERENDAH (HORIZONTAL BAR) ---
             const ctxRendah = document.getElementById('chartRendah').getContext('2d');
             new Chart(ctxRendah, {
                 type: 'bar',
-                data: {
-                    labels: rawRendahData.map(item => item.provinsi),
-                    datasets: [{
-                        label: 'Persentase Kemiskinan (%)',
-                        data: rawRendahData.map(item => item.p0),
-                        backgroundColor: 'rgba(16, 185, 129, 0.7)', // hijau emerald lembut
-                        borderColor: 'rgb(5, 150, 105)', // hijau solid
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y', // bar horizontal
-                    plugins: {
-                        legend: { display: false }
-                    },
-                    scales: {
-                        x: {
-                            grid: { color: '#f1f5f9' },
-                            ticks: { callback: value => value + '%' }
-                        },
-                        y: { grid: { display: false } }
-                    }
+                data: { labels: rawRendahData.map(item => item.provinsi), datasets: [{ label: 'Persentase Kemiskinan (%)', data: rawRendahData.map(item => item.p0), backgroundColor: 'rgba(16, 185, 129, 0.7)', borderColor: 'rgb(5, 150, 105)', borderWidth: 1 }] },
+                options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } },
+                    scales: { x: { grid: { color: '#f1f5f9' }, ticks: { callback: value => value + '%' } }, y: { grid: { display: false } } }
                 }
             });
         });
 
-        // AJAX Form Kalkulator Prediksi
+        // AJAX Kalkulator Utama
         const form = document.getElementById('calcForm');
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const tptInput = document.getElementById('tpt').value;
-            const rlsInput = document.getElementById('rls').value;
-
             try {
                 const response = await fetch('/predict', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ tpt: parseFloat(tptInput), rls: parseFloat(rlsInput) })
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ tpt: parseFloat(document.getElementById('tpt').value), rls: parseFloat(document.getElementById('rls').value) })
                 });
                 const resData = await response.json();
                 if (resData.status === 'success') {
                     document.getElementById('outputContainer').classList.remove('hidden');
                     document.getElementById('predictedVal').textContent = new Intl.NumberFormat('id-ID', { minimumFractionDigits: 2 }).format(resData.prediksi_aman) + "%";
-                    if (resData.safety_guard_aktif) {
-                        document.getElementById('guardWarning').classList.remove('hidden');
-                    } else {
-                        document.getElementById('guardWarning').classList.add('hidden');
-                    }
+                    document.getElementById('guardWarning').classList.toggle('hidden', !resData.safety_guard_aktif);
                 }
-            } catch (err) {
-                console.error("Gagal melakukan kalkulasi:", err);
+            } catch (err) { console.error("Gagal melakukan kalkulasi:", err); }
+        });
+
+        // ============ FITUR UPLOAD DATASET KUSTOM ============
+        let uploadModelData = null;
+
+        document.getElementById('fileInput').addEventListener('change', function() {
+            if (this.files.length > 0) {
+                document.getElementById('fileName').textContent = this.files[0].name;
+                document.getElementById('fileInfo').classList.remove('hidden');
             }
         });
+
+        async function handleUpload() {
+            const fileInput = document.getElementById('fileInput');
+            if (!fileInput.files.length) { showUploadStatus('error', 'Pilih file terlebih dahulu.'); return; }
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            showUploadStatus('loading', 'Membaca file...');
+            try {
+                const res = await fetch('/upload-preview', { method: 'POST', body: formData });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    showUploadStatus('success', `File berhasil dibaca: ${data.total_rows} baris, ${data.all_columns.length} kolom.`);
+                    populateColumnSelectors(data.numeric_columns, data.total_rows);
+                } else { showUploadStatus('error', data.message); }
+            } catch (err) { showUploadStatus('error', 'Gagal upload: ' + err.message); }
+        }
+
+        function populateColumnSelectors(numericCols, totalRows) {
+            ['selX1', 'selX2', 'selY'].forEach(id => {
+                const sel = document.getElementById(id);
+                sel.innerHTML = '<option value="">-- Pilih Kolom --</option>';
+                numericCols.forEach(col => { sel.innerHTML += `<option value="${col}">${col}</option>`; });
+            });
+            document.getElementById('dataInfo').innerHTML =
+                `<i class="fa-solid fa-circle-info text-indigo-500 mr-1"></i> <strong>${totalRows}</strong> baris | <strong>${numericCols.length}</strong> kolom numerik`;
+            document.getElementById('columnSelector').classList.remove('hidden');
+        }
+
+        async function handleAnalyze() {
+            const col_x1 = document.getElementById('selX1').value;
+            const col_x2 = document.getElementById('selX2').value;
+            const col_y  = document.getElementById('selY').value;
+            if (!col_x1 || !col_x2 || !col_y) { alert('Pilih semua kolom terlebih dahulu.'); return; }
+            if (new Set([col_x1, col_x2, col_y]).size < 3) { alert('X1, X2, dan Y harus kolom berbeda.'); return; }
+            try {
+                const res = await fetch('/upload-analyze', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ col_x1, col_x2, col_y })
+                });
+                const data = await res.json();
+                if (data.status === 'success') { uploadModelData = data; displayRegressionResult(data); }
+                else { alert('Error: ' + data.message); }
+            } catch (err) { alert('Gagal analisis: ' + err.message); }
+        }
+
+        function displayRegressionResult(data) {
+            document.getElementById('resultPlaceholder').classList.add('hidden');
+            document.getElementById('regressionResult').classList.remove('hidden');
+            document.getElementById('resPersamaan').textContent =
+                `Y = ${data.konstanta.toFixed(4)} + (${data.koef_x1.toFixed(4)} × ${data.col_x1}) + (${data.koef_x2.toFixed(4)} × ${data.col_x2})`;
+            document.getElementById('resKonstanta').textContent = data.konstanta.toFixed(4);
+            document.getElementById('resKoefX1').textContent = data.koef_x1.toFixed(4);
+            document.getElementById('resKoefX2').textContent = data.koef_x2.toFixed(4);
+            document.getElementById('resR2').textContent = data.r2.toFixed(6);
+            document.getElementById('resAkurasi').textContent = (data.r2 * 100).toFixed(2) + '%';
+            document.getElementById('resSampel').textContent = data.total_sampel;
+            document.getElementById('labelX1Input').textContent = `Nilai X₁ (${data.col_x1})`;
+            document.getElementById('labelX2Input').textContent = `Nilai X₂ (${data.col_x2})`;
+            document.getElementById('uploadPredictOutput').classList.add('hidden');
+        }
+
+        async function handleUploadPredict() {
+            if (!uploadModelData) { alert('Jalankan analisis regresi terlebih dahulu.'); return; }
+            const x1 = parseFloat(document.getElementById('inputX1').value);
+            const x2 = parseFloat(document.getElementById('inputX2').value);
+            if (isNaN(x1) || isNaN(x2)) { alert('Masukkan nilai X1 dan X2 yang valid.'); return; }
+            try {
+                const res = await fetch('/upload-predict', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ konstanta: uploadModelData.konstanta, koef_x1: uploadModelData.koef_x1, koef_x2: uploadModelData.koef_x2, x1, x2 })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    document.getElementById('uploadPredictOutput').classList.remove('hidden');
+                    document.getElementById('uploadPredictVal').textContent =
+                        new Intl.NumberFormat('id-ID', { minimumFractionDigits: 4 }).format(data.hasil);
+                }
+            } catch (err) { alert('Gagal prediksi: ' + err.message); }
+        }
+
+        function showUploadStatus(type, msg) {
+            const el = document.getElementById('uploadStatus');
+            el.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-700', 'bg-rose-50', 'text-rose-700', 'bg-blue-50', 'text-blue-700');
+            if (type === 'success') el.classList.add('bg-emerald-50', 'text-emerald-700');
+            else if (type === 'error') el.classList.add('bg-rose-50', 'text-rose-700');
+            else el.classList.add('bg-blue-50', 'text-blue-700');
+            el.textContent = msg;
+        }
     </script>
 </body>
 </html>
