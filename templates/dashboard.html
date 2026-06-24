@@ -166,6 +166,19 @@
                     </div>
                 </div>
 
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+    
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <h3 class="font-bold text-slate-700 mb-4 text-center">Pengangguran (X1) vs Kemiskinan (Y)</h3>
+                        <img src="{{ url_for('static', filename='images/scatter_pengangguran.png') }}" alt="Grafik TPT" class="w-full rounded">
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <h3 class="font-bold text-slate-700 mb-4 text-center">Pendidikan (X2) vs Kemiskinan (Y)</h3>
+                        <img src="{{ url_for('static', filename='images/scatter_pendidikan.png') }}" alt="Grafik Pendidikan" class="w-full rounded">
+                    </div>
+                </div>
+
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                     <div class="bg-slate-800 text-white px-6 py-4 flex justify-between items-center">
                         <div class="flex items-center gap-2">
