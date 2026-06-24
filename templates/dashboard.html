@@ -75,7 +75,7 @@
                             </div>
                             <div>
                                 <label for="rls" class="block text-sm font-semibold text-slate-700 mb-1">
-                                    <i class="fa-solid fa-school text-indigo-600 mr-1"></i> Rata rata lama sekolah (X₂) (Tahun)
+                                    <i class="fa-solid fa-school text-indigo-600 mr-1"></i> Rata Rata Lama Sekolah (X₂) (Tahun)
                                 </label>
                                 <input type="number" step="any" id="rls" name="rls" required placeholder="Contoh: 9.95"
                                     class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
@@ -134,7 +134,7 @@
                             <h3 class="font-bold text-lg text-slate-700 flex items-center gap-2">
                                 <i class="fa-solid fa-chart-line text-indigo-600"></i> Sebaran Data & Garis Tren Regresi
                             </h3>
-                            <p class="text-xs text-slate-400 mt-0.5">Visualisasi interaktif korelasi TPT (X₁) terhadap Kemiskinan (Y)</p>
+                            <p class="text-xs text-slate-400 mt-0.5">Visualisasi interaktif TPT (X₁) terhadap Kemiskinan (Y)</p>
                         </div>
                         <span class="text-xs font-bold bg-indigo-100 text-indigo-800 px-2 py-1 rounded">Interactive Chart</span>
                     </div>
@@ -191,8 +191,8 @@
                             <thead>
                                 <tr class="bg-slate-100 border-b border-slate-200 text-slate-600 font-bold uppercase">
                                     <th class="p-3">Nama Provinsi</th>
-                                    <th class="p-3 text-center">Tingkat Pengangguran Terbuka (%)</th>
-                                    <th class="p-3 text-center">Rata-rata Lama Sekolah (Th)</th>
+                                    <th class="p-3 text-center">Tingkat Pengangguran Terbuka (TPT) (%)</th>
+                                    <th class="p-3 text-center">Rata-rata Lama Sekolah (RLS) (Th)</th>
                                     <th class="p-3 text-center">Presentase Kemiskinan (%)</th>
                                 </tr>
                             </thead>
@@ -219,6 +219,9 @@
                     <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-5 text-center my-4">
                         <span class="text-indigo-800 text-xs font-bold uppercase tracking-wider block mb-2">Persamaan Matematika Regresi Berganda Aktif</span>
                         <div class="text-md sm:text-lg font-mono font-bold text-indigo-900 bg-white py-3 px-6 rounded-lg shadow-sm inline-block border border-indigo-200">
+                            Y = Konstanta (a) + (Koefisien X₁ * TPT) + (Koefisien X₂ * RLS)
+                        </div>
+                        <div class="text-md sm:text-lg font-mono font-bold text-indigo-900 bg-white py-3 px-6 rounded-lg shadow-sm inline-block border border-indigo-200">
                             {% if model_trained %}{{ metrics.persamaan }}{% else %}Y = a + (b₁ * TPT) + (b₂ * RLS){% endif %}
                         </div>
                     </div>
@@ -226,12 +229,12 @@
                         <div class="border-l-4 border-rose-500 pl-4 py-1">
                             <h4 class="font-bold text-rose-700 text-sm">Pengaruh Pengangguran / TPT (X₁)</h4>
                             <p class="font-semibold text-slate-500 mt-1">Koefisien Model (b₁): {% if model_trained %}{{ "%.4f"|format(metrics.koef_tpt) }}{% else %}N/A{% endif %}</p>
-                            <p class="mt-2 text-justify">Berdasarkan pemodelan, koefisien bernilai <strong>positif (+)</strong>. Hal ini selaras dengan teori ekonomi makro bahwa kenaikan tingkat pengangguran berbanding lurus dengan kemiskinan, akibat hilangnya pendapatan primer rumah tangga secara merata di suatu wilayah.</p>
+                            <p class="mt-2 text-justify">Berdasarkan pemodelan, koefisien 1 bernilai <strong>positif (+)</strong>. Hal ini selaras dengan teori ekonomi makro bahwa kenaikan tingkat pengangguran berbanding lurus dengan kemiskinan, akibat hilangnya pendapatan primer rumah tangga secara merata di suatu wilayah.</p>
                         </div>
                         <div class="border-l-4 border-emerald-500 pl-4 py-1">
                             <h4 class="font-bold text-emerald-700 text-sm">Pengaruh Pendidikan / RLS (X₂)</h4>
                             <p class="font-semibold text-slate-500 mt-1">Koefisien Model (b₂): {% if model_trained %}{{ "%.4f"|format(metrics.koef_rls) }}{% else %}N/A{% endif %}</p>
-                            <p class="mt-2 text-justify">Berdasarkan pemodelan, koefisien bernilai <strong>negatif (-)</strong>. Hal ini selaras dengan teori pengembangan modal manusia (*human capital theory*). Semakin lama masyarakat menempuh pendidikan, keahlian mereka semakin unggul untuk diserap lapangan kerja produktif, sehingga angka kemiskinan secara efektif tertekan.</p>
+                            <p class="mt-2 text-justify">Berdasarkan pemodelan, koefisien 2 bernilai <strong>negatif (-)</strong>. Hal ini selaras dengan teori pengembangan modal manusia. Semakin lama masyarakat menempuh pendidikan, keahlian mereka semakin unggul untuk diserap lapangan kerja produktif, sehingga angka kemiskinan secara efektif menurun.</p>
                         </div>
                     </div>
                 </div>
@@ -242,7 +245,7 @@
         <div class="mt-10">
             <div class="border-t-4 border-indigo-500 mb-8"></div>
             <div class="mb-6">
-                <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Fitur Tambahan</span>
+                <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Fitur Upload Dataset</span>
                 <h2 class="text-2xl font-extrabold text-slate-800 mt-2">Analisis Regresi Linier Berganda Dataset Kustom</h2>
                 <p class="text-slate-500 text-sm mt-1">Upload file Excel atau CSV milik Anda sendiri untuk di analisis, pilih kolom X1, X2, dan Y, lalu jalankan regresi linear berganda.</p>
             </div>
